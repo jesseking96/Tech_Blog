@@ -1,0 +1,27 @@
+{% extends "blog/blog_base.html" %}
+{% block content %}
+  <div class="container">
+    <div class="jumbotron post_detail">
+      <h1>{{object.title}}</h1>
+      <p>{{object.published_date}}</p>
+      <img src="{{object.title_image.url}}" alt="" width='500',height='600'>
+      <p>{{object.text}}</p>
+    </div>
+    <h3>Comments</h3>
+    {% for comment in object.comments.all %}
+      <div class="jumbotron post_detail">
+        <p>User: {{comment.user}}</p>
+        <p>Comment: {{comment.text}}</p>
+        <p>Date: {{comment.created_date}}</p>
+      </div>
+
+    {% empty %}
+    <p>No comments</p>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <a href="{% url 'blog:new_comment' slug=object.slug %}"> <button type="button" name="button">Add Comment</button> </a>
+    {% else %}
+    <p>Log In or Sign Up to add comments!</p>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "blog/blog_base.html" %}
+{% load static %}
+{% block content %}
+
+{% for post in object_list %}
+  <div class="card">
+    <a class='post_list_item' href="{% url 'blog:single' slug=post.slug %}">
+    <img src="{{post.title_image.url}}" class="card-img-top" alt="{% static "blog/post_title_images/default.jpg" %}">
+    <div class="card-body">
+      <h5 class="card-title">{{post.title}}</h5>
+      <p class="card-text">{{post.text|truncatechars:50}}</p>
+      {% if post.comments.count > 0 %}
+
+          <p>{{post.comments.count}} comment{{post.comments|pluralize}}</p>
+
+
+      {% else %}
+        <p>0 Comments</p>
+      {% endif %}
+
+      <br>
+    </div>
+    </a>
+  </div>
+  <br>
+{% empty %}
+<h3>No posts have been made yet! Check back later...</h1>
+{% endfor %}
+
+{% endblock %}
